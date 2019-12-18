@@ -1,6 +1,6 @@
 spring:
   application:
-    name: service.order
+    name: order
     
 server:
   port: 8763
@@ -21,7 +21,7 @@ ribbon:
 ##开启hystrix断路器
 feign:
  hystrix:
-  enabled:true 
+  enabled: true
   
 ##禁用hystrix的超时时间，不过一般情况下不需要禁用，稍微延长超时时间就行
 hystrix:
@@ -29,7 +29,7 @@ hystrix:
     default:
       execution:
         timeout:
-          enabled: true
+          enabled: false
 
        
 

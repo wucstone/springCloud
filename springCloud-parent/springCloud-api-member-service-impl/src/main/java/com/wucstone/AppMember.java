@@ -8,8 +8,8 @@ import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
 @EnableEurekaClient
-@EnableFeignClients(basePackages="com.wucstone.service")
-@ComponentScan("com.wucstone")
+//@EnableFeignClients(basePackages="com.wucstone.service")
+//@ComponentScan("com.wucstone")
 public class AppMember {
 	
 	

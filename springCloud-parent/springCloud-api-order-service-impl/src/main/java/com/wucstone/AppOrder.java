@@ -9,9 +9,8 @@ import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
 @EnableEurekaClient
-@EnableFeignClients(basePackages="com.wucstone.order.FeignClient")
+@EnableFeignClients(basePackages="com.wucstone.order.api.feignClient")
 @EnableHystrix
-@ComponentScan("com.wucstone")
 public class AppOrder {
 	
 	public static void main(String[] args) {

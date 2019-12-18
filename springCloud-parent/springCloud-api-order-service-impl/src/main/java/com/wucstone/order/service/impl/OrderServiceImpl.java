@@ -1,5 +1,6 @@
 package com.wucstone.order.service.impl;
 
+import com.wucstone.order.api.fallBack.Order2MemberFallback;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,8 +17,10 @@ public class OrderServiceImpl implements IOrderService{
 	private Order2MemberFeignClient order2MemberFeignClient;
 
 
+
 	//未解决服务雪崩效应
 	@RequestMapping("/getMemberFromOrderService")
+	@Override
 	public String getMemberFromOrderService(String name) {
 		
 		UserEntity user = order2MemberFeignClient.getMember(name);
