@@ -12,9 +12,15 @@ shardingRule:
       actualDataNodes: ds_0.order_${0..1}
 #        databaseStrategy:
       tableStrategy:
-        inline:
+#        inline:
+#          shardingColumn: id
+#          algorithmExpression: order_${id % 2}
+
+
+        standard:
           shardingColumn: id
-          algorithmExpression: order_${id % 2}
+          preciseAlgorithmClassName: com.wucstone.order.algor.OrderShardingAlgorithm
+
 #        broadcastTables:
 #          - t_config
 

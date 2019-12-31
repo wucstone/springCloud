@@ -20,14 +20,14 @@ public class OrderShardingServiceImpl implements IOrderShardingService {
 	@Override
 	@GetMapping("/saveOrder")
 	public String saveOrder(String name) {
-//		for(int i=0 ;i < 100 ; i++ ){
-//			OrderDO orderDO = new OrderDO();
-//			orderDO.setId(new Long(i));
-//			orderDO.setOrderNo("sharding_" + i);
-//
-//			orderMapper.saveOrder(orderDO);
-//
-//		}
+		for(int i=0 ;i < 100 ; i++ ){
+			OrderDO orderDO = new OrderDO();
+			orderDO.setId(new Long(i));
+			orderDO.setOrderNo("sharding_" + i);
+
+			orderMapper.saveOrder(orderDO);
+
+		}
 //
 //
 //		OrderDO orderDO = new OrderDO();
