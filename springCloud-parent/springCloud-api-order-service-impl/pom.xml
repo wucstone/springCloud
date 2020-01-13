@@ -5,8 +5,8 @@
     <artifactId>springCloud-parent</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
-  <artifactId>springCloud-api-order-service-impl</artifactId>
-
+  <artifactId>api-order-service-impl</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
 
   <dependencies>
   	<dependency>
@@ -20,20 +20,30 @@
 	    <version>0.0.1-SNAPSHOT</version>
   	</dependency>
 
-
-<!--	  <dependency>-->
-<!--		  <groupId>org.mybatis.spring.boot</groupId>-->
-<!--		  <artifactId>mybatis-spring-boot-starter</artifactId>-->
-<!--		  <version>${mybatis.version}</version>-->
-<!--	  </dependency>-->
-<!--	  <dependency>-->
-<!--		  <groupId>com.baomidou</groupId>-->
-<!--		  <artifactId>mybatis-plus-extension</artifactId>-->
-<!--		  <version>3.1.2</version>-->
-<!--	  </dependency>-->
-
-
-
-
   </dependencies>
+
+    <build>
+        <plugins>
+            <!-- Docker maven plugin -->
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>1.0.0</version>
+                <configuration>
+                    <imageName>${docker.registry}/${project.groupId}/${project.artifactId}:${project.version}</imageName>
+                    <dockerDirectory>${project.basedir}/src/main/docker</dockerDirectory>
+
+                    <dockerHost>http://192.168.244.100:2375</dockerHost>
+                    <resources>
+                        <resource>
+                            <targetPath>/</targetPath>
+                            <directory>${project.build.directory}</directory>
+                            <include>${project.build.finalName}.jar</include>
+                        </resource>
+                    </resources>
+                </configuration>
+            </plugin>
+            <!-- Docker maven plugin -->
+        </plugins>
+    </build>
 </project>
