@@ -1,6 +1,18 @@
 spring:
   application:
     name: member
+  datasource:
+    type: org.apache.tomcat.jdbc.pool.DataSource
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password: 123456
+    url: jdbc:mysql://localhost:3306/wucstone?autoReconnect=true&characterEncoding=utf8
+    test-on-borrow: true
+    validation-interval: 3600000
+    validation-query: SELECT 1
+    tomcat:
+      initial-size: 100
+      max-active: 200
     
 server:
   port: 8762

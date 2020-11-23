@@ -8,6 +8,6 @@ import com.wucstone.entity.UserEntity;
 public interface IMemberService {
 	
 	@RequestMapping("/getMember")
-	public UserEntity getMember(@RequestParam("name")String name);
+	UserEntity getMember(@RequestParam("name")String name);
 
 }

@@ -17,13 +17,13 @@ public class MemberServiceImpl implements IMemberService{
 		
 		UserEntity entity = new UserEntity();
 		entity.setName(name);
-		entity.setAge(28);
+		entity.setAge(29);
 		System.out.println(JSONObject.toJSONString(entity));
-		try {
-			Thread.sleep(15000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+//		try {
+//			Thread.sleep(15000);
+//		} catch (InterruptedException e) {
+//			e.printStackTrace();
+//		}
 		return entity;
 	}
 

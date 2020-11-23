@@ -4,7 +4,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 public interface IOrderService {
 	
-	@RequestMapping("/getMemberFromOrderService")
-	public String getMemberFromOrderService(String name);
+	String getMemberFromOrderService(String name);
 
 }

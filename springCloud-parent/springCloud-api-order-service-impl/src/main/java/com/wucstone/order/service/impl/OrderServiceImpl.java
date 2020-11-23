@@ -1,26 +1,37 @@
 package com.wucstone.order.service.impl;
 
-import com.wucstone.order.api.fallBack.Order2MemberFallback;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.wucstone.api.order.entity.CenterOrderDO;
+import com.wucstone.order.mapper.data.OrderMapper;
+import org.springframework.transaction.support.TransactionTemplate;
+import org.springframework.web.bind.annotation.*;
 
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.wucstone.api.order.service.IOrderService;
 import com.wucstone.entity.UserEntity;
 import com.wucstone.order.api.feignClient.Order2MemberFeignClient;
 
+import javax.annotation.Resource;
+import java.util.UUID;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+
 @RestController
 public class OrderServiceImpl implements IOrderService{
 	
-	@Autowired
+	@Resource
 	private Order2MemberFeignClient order2MemberFeignClient;
+	@Resource
+	private OrderMapper orderMapper;
+	@Resource
+	private TransactionTemplate transactionTemplate;
 
 
 
 	//未解决服务雪崩效应
-	@RequestMapping("/getMemberFromOrderService")
 	@Override
+	@GetMapping("/getMemberFromOrderService")
 	public String getMemberFromOrderService(String name) {
 		
 		UserEntity user = order2MemberFeignClient.getMember(name);
@@ -38,6 +49,35 @@ public class OrderServiceImpl implements IOrderService{
 		
 		UserEntity user = order2MemberFeignClient.getMember(name);
 		return user.getName()+"--"+user.getAge()+"--"+Thread.currentThread().getName();
+	}
+
+	@PostMapping("/saveOrder")
+	public void saveOrder(@RequestParam("name") Integer cnt){
+
+		System.out.println(transactionTemplate.getTransactionManager().getClass());
+
+		ThreadPoolExecutor pool = new ThreadPoolExecutor(10,20,3000, TimeUnit.SECONDS,new LinkedBlockingQueue<>());
+		CountDownLatch latch = new CountDownLatch(cnt);
+		for(int i = 0;i<cnt;i++){
+			final Integer ii = i;
+			pool.submit(new Runnable() {
+				@Override
+				public void run() {
+//					CenterOrderDO orderDO = new CenterOrderDO();
+//					orderDO.setName("name"+ii);
+//					orderDO.setOrderNo(UUID.randomUUID().toString());
+//					orderMapper.insert(orderDO);
+//					latch.countDown();
+					orderMapper.saveOrder();
+				}
+			});
+		}
+		try {
+			latch.await();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
 	}
 
 	public String fallBackGetMemberFromOrderServiceHystrix(String name){
